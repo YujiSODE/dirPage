@@ -8,12 +8,15 @@
 ##===================================================================
 #It generates a HTML file using contents in the current directory.
 #=== Synopsis ===
-#**Tcl**
+#** Shell **
+#tclsh dirPage.tcl ?css? ?ex0? ?ex ex ...?;
+# - $css: an optional css file; e.g., dirPage_css.css
+# - $ex0: an optional file extension to be displayed with code element
+# - $ex: additional file extensions
+#--------------------------------------------------------------------
+#** Tcl **
 #::dirPage::run ?css? ?exList?;
-#**Shell**
-#tclsh
-#=== Parameters ===
-# - $css: an optional css file; e.g., dirPage.css
+# - $css: an optional css file; e.g., dirPage_css.css
 # - $exList: an optional list of file extensions to be displayed with code element
 ##===================================================================
 set auto_noexec 1;
@@ -26,7 +29,7 @@ namespace eval ::dirPage {
 	variable html0 {<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="generator" content="dirPage">};
 	#main script
 	proc run {{css {}} {exList {}}} {
-		# - $css: an optional css file; e.g., dirPage.css 
+		# - $css: an optional css file; e.g., dirPage_css.css 
 		# - $exList: an optional list of file extensions to be displayed with code element
 		variable html0;
 		variable imgEx;
@@ -36,7 +39,7 @@ namespace eval ::dirPage {
 		if {[llength $css]} {
 			set F [read -nonewline [set c [open $css r]]];
 			close $c;
-			append html0 "\n<style type=\"text/css\">$F</style>";
+			append html0 "\n<style type=\"text/css\">\n$F\n</style>";
 			unset F c;
 		};
 		append html0 "<title>$dirName</title></head><body>\n<h1>$dirName</h1>\n";
@@ -76,4 +79,8 @@ namespace eval ::dirPage {
 		set html0 {<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="generator" content="dirPage">};
 		return "dirPage: $timestamp";
 	};
+};
+#Shell
+if {[regexp {^(?:.+\/)?dirPage.tcl} $argv0]} {
+	::dirPage::run [lindex $argv 0] [lrange $argv 1 end];
 };
