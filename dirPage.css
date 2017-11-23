@@ -1,9 +1,0 @@
-/*dirPage.css*/
-article,figure{
-	border:2px solid #000f;
-	padding:0.5em;
-	margin:1em;
-	overflow:scroll;
-	background:#ffff;
-	color:#000f;
-}
